@@ -70,27 +70,27 @@ local function doRepair(target)
         "Durability"
     }
     repairEvent:FireServer(unpack(args))
+
     task.delay(1, function()
+        -- Cancelar reparación
         cancelRepairEvent:FireServer()
+
+        -- Mover la herramienta Wrench de nuevo al Backpack
+        local wrench = LocalPlayer.Character:FindFirstChild("Wrench")
+        if wrench then
+            wrench.Parent = LocalPlayer:WaitForChild("Backpack")
+        end
     end)
 end
 
 -- Acción al presionar el botón
 button.MouseButton1Click:Connect(function()
-    -- FWPumpB
     doRepair(workspace:WaitForChild("FacilitySystems"):WaitForChild("Feedwater"):WaitForChild("FWPumpB"):WaitForChild("Repair"))
-    -- FWPumpA
     doRepair(workspace:WaitForChild("FacilitySystems"):WaitForChild("Feedwater"):WaitForChild("FWPumpA"):WaitForChild("Repair"))
-    -- TurbineBeta
     doRepair(workspace:WaitForChild("FacilitySystems"):WaitForChild("Turbines"):WaitForChild("TurbineBeta"):WaitForChild("Repair"))
-    -- JunctionBox
     doRepair(workspace:WaitForChild("FacilitySystems"):WaitForChild("JunctionBoxes"):WaitForChild("JunctionBox"):WaitForChild("Hitbox"))
-    -- TurbineAlpha
     doRepair(workspace:WaitForChild("FacilitySystems"):WaitForChild("Turbines"):WaitForChild("TurbineAlpha"):WaitForChild("Repair"))
-    -- Generator1
     doRepair(workspace:WaitForChild("FacilitySystems"):WaitForChild("Generators"):WaitForChild("Generator1"):WaitForChild("Repair"))
-    -- Generator2
     doRepair(workspace:WaitForChild("FacilitySystems"):WaitForChild("Generators"):WaitForChild("Generator2"):WaitForChild("Repair"))
-    -- Generator3
     doRepair(workspace:WaitForChild("FacilitySystems"):WaitForChild("Generators"):WaitForChild("Generator3"):WaitForChild("Repair"))
 end)
