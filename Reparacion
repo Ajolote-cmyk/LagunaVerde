@@ -71,7 +71,7 @@ local function doRepair(target)
     }
     repairEvent:FireServer(unpack(args))
 
-    task.delay(1, function()
+    task.delay(0.4, function()
         -- Cancelar reparación
         cancelRepairEvent:FireServer()
 
