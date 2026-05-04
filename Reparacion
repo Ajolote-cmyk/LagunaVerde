@@ -1,0 +1,96 @@
+-- LocalScript en StarterPlayerScripts
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalPlayer = Players.LocalPlayer
+
+-- Referencias a los RemoteEvents
+local repairEvent = ReplicatedStorage:WaitForChild("Remotes")
+    :WaitForChild("RepairSystem")
+    :WaitForChild("Repair")
+
+local cancelRepairEvent = ReplicatedStorage:WaitForChild("Remotes")
+    :WaitForChild("RepairSystem")
+    :WaitForChild("CancelRepair")
+
+-- Crear GUI principal
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "RepairGui"
+screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+
+-- Crear panel
+local panel = Instance.new("Frame")
+panel.Name = "LagunaVerde"
+panel.Size = UDim2.new(0, 300, 0, 150)
+panel.Position = UDim2.new(0.5, -150, 0.7, 0)
+panel.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+panel.Active = true
+panel.Draggable = true
+panel.Parent = screenGui
+
+-- Logo circular blanco
+local logo = Instance.new("ImageButton")
+logo.Name = "LogoLagunaVerde"
+logo.Size = UDim2.new(0, 40, 0, 40)
+logo.Position = UDim2.new(0, 5, 0, 5)
+logo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+logo.Parent = panel
+
+local logoCorner = Instance.new("UICorner")
+logoCorner.CornerRadius = UDim.new(1, 0)
+logoCorner.Parent = logo
+
+-- Botón dentro del panel
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0, 200, 0, 50)
+button.Position = UDim2.new(0.5, -100, 0.5, -25)
+button.Text = "Reparar"
+button.Parent = panel
+
+-- Estado inicial
+local minimized = false
+
+-- Acción al presionar el logo
+logo.MouseButton1Click:Connect(function()
+    minimized = not minimized
+    if minimized then
+        button.Visible = false
+        panel.Size = UDim2.new(0, 60, 0, 60)
+    else
+        button.Visible = true
+        panel.Size = UDim2.new(0, 300, 0, 150)
+    end
+end)
+
+-- Función auxiliar para disparar Repair y CancelRepair
+local function doRepair(target)
+    local args = {
+        LocalPlayer.Character:WaitForChild("Wrench"),
+        target,
+        "Durability"
+    }
+    repairEvent:FireServer(unpack(args))
+    task.delay(1, function()
+        cancelRepairEvent:FireServer()
+    end)
+end
+
+-- Acción al presionar el botón
+button.MouseButton1Click:Connect(function()
+    -- FWPumpB
+    doRepair(workspace:WaitForChild("FacilitySystems"):WaitForChild("Feedwater"):WaitForChild("FWPumpB"):WaitForChild("Repair"))
+    -- FWPumpA
+    doRepair(workspace:WaitForChild("FacilitySystems"):WaitForChild("Feedwater"):WaitForChild("FWPumpA"):WaitForChild("Repair"))
+    -- TurbineBeta
+    doRepair(workspace:WaitForChild("FacilitySystems"):WaitForChild("Turbines"):WaitForChild("TurbineBeta"):WaitForChild("Repair"))
+    -- JunctionBox
+    doRepair(workspace:WaitForChild("FacilitySystems"):WaitForChild("JunctionBoxes"):WaitForChild("JunctionBox"):WaitForChild("Hitbox"))
+    -- TurbineAlpha
+    doRepair(workspace:WaitForChild("FacilitySystems"):WaitForChild("Turbines"):WaitForChild("TurbineAlpha"):WaitForChild("Repair"))
+    -- Generator1
+    doRepair(workspace:WaitForChild("FacilitySystems"):WaitForChild("Generators"):WaitForChild("Generator1"):WaitForChild("Repair"))
+    -- Generator2
+    doRepair(workspace:WaitForChild("FacilitySystems"):WaitForChild("Generators"):WaitForChild("Generator2"):WaitForChild("Repair"))
+    -- Generator3
+    doRepair(workspace:WaitForChild("FacilitySystems"):WaitForChild("Generators"):WaitForChild("Generator3"):WaitForChild("Repair"))
+end)
