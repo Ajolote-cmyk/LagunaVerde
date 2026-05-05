@@ -28,12 +28,13 @@ panel.Active = true
 panel.Draggable = true
 panel.Parent = screenGui
 
--- Logo circular blanco
+-- Logo circular con assetId
 local logo = Instance.new("ImageButton")
 logo.Name = "LogoLagunaVerde"
 logo.Size = UDim2.new(0, 40, 0, 40)
 logo.Position = UDim2.new(0, 5, 0, 5)
-logo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+logo.BackgroundTransparency = 1 -- elimina fondo blanco
+logo.Image = "rbxassetid://90853648543327" -- tu assetId
 logo.Parent = panel
 
 local logoCorner = Instance.new("UICorner")
